@@ -9,8 +9,6 @@ import torch.nn.functional as F
 import torch.backends.cudnn as cudnn
 import torch.optim as optim
 from torch.optim.lr_scheduler import MultiStepLR 
-#import torchvision.transforms as transforms
-#import torchvision.utils as vutils
 import torch.optim as optim
 from torch.autograd import Variable
 import os
@@ -19,9 +17,9 @@ import numpy as np
 	
 from random import sample
 
-from lae.data import CIFData
-from lae.data import collate_pool, get_train_val_test_loader
-from lae.model import NET
+from data import CIFData
+from data import collate_pool, get_train_val_test_loader
+from model import NET
 from torch.utils.data import DataLoader
 parser = argparse.ArgumentParser(description='AECNN')
 
