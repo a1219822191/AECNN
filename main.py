@@ -20,7 +20,7 @@ import numpy as np
 from random import sample
 from lae.data import CIFData
 from lae.data import collate_pool, get_train_val_test_loader
-from lae.model1 import SAOP_atom
+#from lae.model1 import SAOP_atom
 from lae.model import NET
 from torch.utils.data import DataLoader
 parser = argparse.ArgumentParser(description='AECNN')
@@ -43,12 +43,12 @@ parser.add_argument('--print-freq', '-p', default=10, type=int,
                     metavar='N', help='print frequency (default: 10)')
 parser.add_argument('--resume', default='', type=str, metavar='PATH',
                     help='path to latest checkpoint (default: none)')
-parser.add_argument('--train-size', default=2700, type=int, metavar='N',
+parser.add_argument('--train-size', default=16810, type=int, metavar='N',
                     help='number of training data to be loaded (default none)')
-parser.add_argument('--val-size', default=350, type=int, metavar='N',
+parser.add_argument('--val-size', default=1000, type=int, metavar='N',
                     help='number of validation data to be loaded (default '
                                         '1000')
-parser.add_argument('--test-size', default=350, type=int, metavar='N',
+parser.add_argument('--test-size', default=1000, type=int, metavar='N',
                     help='number of test data to be loaded (default 1000)')
 
 parser.add_argument('--optim', default='SGD', type=str, metavar='SGD',
@@ -84,15 +84,6 @@ def main():
     normalizer = Normalizer(sample_target)
     s = Normalizer(input_1)
 
-   # build model 
-    #structures, _,_ = dataset[0]
-    #orig_atom_fea_len = structures[0].shape[-1]
-    #struc=210
-    #model = SAOP_atom(orig_atom_fea_len, 
-    #            struc,  
-    #            atom_fea_len=opt.atom_fea_len , 
-    #            n_conv=opt.n_conv,   
-    #            h_fea_len=opt.h_fea_len, n_h=opt.n_h) 
 
     model=NET()
 
