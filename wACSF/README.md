@@ -13,11 +13,11 @@ will install wACSF package in your machine
 * USING wACSF
 ```python
 from libwacsf.wacsf import WACSF
-a = WACSF(rcut=6.0,nfeature= 33)
-acsf = a.car2wacsf(lattice,position)
+a = WACSF(Rcut=6.0, Nfeature= 33)
+Acsf = a.car2wacsf(Lattice, Position)
 ```
-Rcut define the size of region to calculate ACSF 
-nfearure define the number of symmetry function  
-lattice is the cell matrix shape (3,3)  
-position is the atomic position in cartesian coordinate shape (natoms,3), natoms is the number of atoms in cell  
-acsf is the wacsf matrix shape (natoms, nfeature)  
+`Rcut` define the size of region to calculate ACSF 
+`Nfearure` define the number of symmetry function  
+`Lattice` is the cell matrix shape (3,3)  
+`Position` is the atomic position in cartesian coordinate shape (natoms,3), natoms is the number of atoms in cell  
+`Acsf` is the wacsf matrix shape (natoms, nfeature)  
