@@ -16,8 +16,8 @@ from libwacsf.wacsf import WACSF
 a = WACSF(Rcut=6.0, Nfeature= 33)
 Acsf = a.car2wacsf(Lattice, Position)
 ```
-`Rcut` define the size of region to calculate ACSF 
-`Nfearure` define the number of symmetry function  
-`Lattice` is the cell matrix shape (3,3)  
-`Position` is the atomic position in cartesian coordinate shape (natoms,3), natoms is the number of atoms in cell  
-`Acsf` is the wacsf matrix shape (natoms, nfeature)  
+__Rcut__ define the size of region to calculate ACSF 
+__Nfearure__ define the number of symmetry function  
+__Lattice__ is the cell matrix shape (3,3)  
+__Position__ is the atomic position in cartesian coordinate shape (natoms,3), natoms is the number of atoms in cell  
+__Acsf__ is the wacsf matrix shape (natoms, nfeature)  
