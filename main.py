@@ -18,9 +18,9 @@ import sys
 import numpy as np
 	
 from random import sample
+
 from lae.data import CIFData
 from lae.data import collate_pool, get_train_val_test_loader
-#from lae.model1 import SAOP_atom
 from lae.model import NET
 from torch.utils.data import DataLoader
 parser = argparse.ArgumentParser(description='AECNN')
@@ -53,14 +53,6 @@ parser.add_argument('--test-size', default=1000, type=int, metavar='N',
 
 parser.add_argument('--optim', default='SGD', type=str, metavar='SGD',
                     help='choose an optimizer, SGD or Adam, (default: SGD)')
-#parser.add_argument('--atom_fea_len', default=64, type=int, metavar='N',
-#                    help='number of hidden atom features in conv layers')
-#parser.add_argument('--h-fea-len', default=128, type=int, metavar='N',
-#                    help='number of hidden features after pooling')
-#parser.add_argument('--n-conv', default=3, type=int, metavar='N',
-#                    help='number of conv layers')
-#parser.add_argument('--n-h', default=1, type=int, metavar='N',
-#                    help='number of hidden layers after pooling')
 
 opt = parser.parse_args(sys.argv[1:])
 opt.cuda = not opt.disable_cuda and torch.cuda.is_available()
@@ -69,6 +61,7 @@ def main():
     global opt, best_mae_error
 
     dataset = CIFData(*opt.dataroot)
+
     collate_fn = collate_pool
     
     train_loader, val_loader, test_loader = get_train_val_test_loader(
@@ -144,7 +137,6 @@ def train(train_loader, model, criterion, optimizer, epoch,normalizer,s):
     model.train()
 
     end = time.time()
-#    with torchsnooper.snoop():
     for i, (input,target,_) in enumerate(train_loader):
         # measure data loading time
         data_time.update(time.time() - end)

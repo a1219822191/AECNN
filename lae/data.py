@@ -116,91 +116,6 @@ def collate_pool(dataset_list):
         torch.stack(batch_target, dim=0),\
         batch_cif_ids
 
-#Code element-------------------------------------------------------------             
-#class AtomInitializer(object):
-#    def __init__(self, atom_types):
-#        self.atom_types = set(atom_types)
-#        self._embedding = {}
-#
-#
-#    def get_atom_fea(self, atom_type):
-#        assert atom_type in self.atom_types
-#        return self._embedding[atom_type]
-#
-#    def load_state_dict(self, state_dict):
-#        self._embedding = state_dict
-#        self.atom_types = set(self._embedding.keys())
-#        self._decodedict = {idx: atom_type for atom_type, idx in
-#                                self._embedding.items()}
-#
-#    def state_dict(self):
-#        return self._embedding
-#
-#    def decode(self, idx):
-#        if not hasattr(self, '_decodedict'):
-#            self._decodedict = {idx: atom_type for atom_type, idx in
-#                                    self._embedding.items()}
-#        return self._decodedict[idx]
-#
-#
-#class AtomCustomJSONInitializer(AtomInitializer):
-#
-#    def __init__(self, elem_embedding_file):
-#        with open(elem_embedding_file) as f:
-#            elem_embedding = json.load(f)
-#        elem_embedding = {int(key): value for key, value
-#                            in elem_embedding.items()}
-#
-#        atom_types = set(elem_embedding.keys())
-#        super(AtomCustomJSONInitializer, self).__init__(atom_types)
-#        for key, value in elem_embedding.items():
-#            self._embedding[key] = np.array(value, dtype=float)
-
-#class one_hot_element(object)
-#
-#    def __init__(self,element):
-#
-#
-#       # ChemicalSymbols = [ 'X',  'H',  'He', 'Li', 'Be','B',  'C',  'N',  'O',  'F',
-#       #             'Ne', 'Na', 'Mg', 'Al', 'Si','P',  'S',  'Cl', 'Ar', 'K',
-#       #             'Ca', 'Sc', 'Ti', 'V',  'Cr','Mn', 'Fe', 'Co', 'Ni', 'Cu',
-#       #             'Zn', 'Ga', 'Ge', 'As', 'Se','Br', 'Kr', 'Rb', 'Sr', 'Y',
-#       #             'Zr', 'Nb', 'Mo', 'Tc', 'Ru','Rh', 'Pd', 'Ag', 'Cd', 'In',
-#       #             'Sn', 'Sb', 'Te', 'I',  'Xe','Cs', 'Ba', 'La', 'Ce', 'Pr',
-#       #             'Nd', 'Pm', 'Sm', 'Eu', 'Gd','Tb', 'Dy', 'Ho', 'Er', 'Tm',
-#       #             'Yb', 'Lu', 'Hf', 'Ta', 'W','Re', 'Os', 'Ir', 'Pt', 'Au',
-#       #             'Hg', 'Tl', 'Pb', 'Bi', 'Po','At', 'Rn', 'Fr', 'Ra', 'Ac',
-#       #             'Th', 'Pa', 'U',  'Np', 'Pu','Am', 'Cm', 'Bk', 'Cf', 'Es',
-#       #             'Fm', 'Md', 'No', 'Lr']        
-#def one_hot_element(self,ele):
-#    one_hot=[0, 0, 0, 0, 0, 0, 0, 0, 0,  
-#                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0, 0, 0, 
-#                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0, 0, 0, 
-#                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0, 0, 0, 
-#                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0, 0, 0, 
-#                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0, 0, 0, 
-#                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0, 0, 0, 
-#                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0, 0, 0] 
-#
-#    atomicNum = {'X': 0, 'H': 1, 'He': 2, 'Li': 3, 'Be': 4, 'B': 5, 'C': 6, 'N': 7, 'O': 8, 'F': 9, 
-#                    'Ne': 10, 'Na': 11, 'Mg': 12, 'Al': 13, 'Si': 14, 'P': 15, 'S': 16, 'Cl': 17, 
-#                    'Ar': 18, 'K': 19, 'Ca': 20, 'Sc': 21, 'Ti': 22, 'V': 23, 'Cr': 24, 'Mn': 25, 
-#                    'Fe': 26, 'Co': 27, 'Ni': 28, 'Cu': 29, 'Zn': 30, 'Ga': 31, 'Ge': 32, 'As': 33, 
-#                    'Se': 34, 'Br': 35, 'Kr': 36, 'Rb': 37, 'Sr': 38, 'Y': 39, 'Zr': 40, 'Nb': 41, 
-#                    'Mo': 42, 'Tc': 43, 'Ru': 44, 'Rh': 45, 'Pd': 46, 'Ag': 47, 'Cd': 48, 'In': 49, 
-#                    'Sn': 50, 'Sb': 51, 'Te': 52, 'I': 53, 'Xe': 54, 'Cs': 55, 'Ba': 56, 'La': 57, 
-#                    'Ce': 58, 'Pr': 59, 'Nd': 60, 'Pm': 61, 'Sm': 62, 'Eu': 63, 'Gd': 64, 'Tb': 65, 
-#                    'Dy': 66, 'Ho': 67, 'Er': 68, 'Tm': 69, 'Yb': 70, 'Lu': 71, 'Hf': 72, 'Ta': 73, 
-#                    'W': 74, 'Re': 75, 'Os': 76, 'Ir': 77, 'Pt': 78, 'Au': 79, 'Hg': 80, 'Tl': 81, 
-#                    'Pb': 82, 'Bi': 83, 'Po': 84, 'At': 85, 'Rn': 86, 'Fr': 87, 'Ra': 88, 'Ac': 89, 
-#                    'Th': 90, 'Pa': 91, 'U': 92, 'Np': 93, 'Pu': 94, 'Am': 95, 'Cm': 96, 'Bk': 97, 
-#                    'Cf': 98, 'Es': 99, 'Fm': 100, 'Md': 101, 'No': 102, 'Lr': 103}
-#    one_hot[ele]=1
-#
-#    return self.one_hot
-
-        
-#---------------------------------------------------------------------------
 
 
 class CIFData(Dataset): 
@@ -217,15 +132,9 @@ class CIFData(Dataset):
             self.id_prop_data = [row for row in reader]
         random.seed(random_seed)
         random.shuffle(self.id_prop_data)
-        #atom_init_file = os.path.join(self.root_dir, 'atom_init.json')
-        #assert os.path.exists(atom_init_file), 'atom_init.json does not exist!'
-        #self.ari = AtomCustomJSONInitializer(atom_init_file)
-
-
     # data num    
     def __len__(self):
         return len(self.id_prop_data)
-    # input_file target
     @functools.lru_cache(maxsize=None)
     def __getitem__(self,idx):
         cif_id, target = self.id_prop_data[idx]
@@ -237,14 +146,11 @@ class CIFData(Dataset):
          #---Code structure----------------------
         a = WACSF(rcut=6.0,nfeature= 33)
         struc =a.car2wacsf(lat,pos)
-        print(struc)
-        sys.exit(0)
         #-------------------------------------------
         # Code element
         ele=[]
         for i in range(len(crystal)):
             ele.append(crystal[i].specie.number)
-        #ele1=sorted(ele)
         atom_fea = np.vstack([self.one_hot_element(ele[i])
                                 for i in range(len(crystal))])
         
@@ -252,6 +158,7 @@ class CIFData(Dataset):
         struc = torch.Tensor(struc)
         atom_fea = torch.Tensor(atom_fea)
         return (atom_fea,struc) , target,cif_id
+
     def one_hot_element(self,ele):                                                                                                                               
         one_hot=[0, 0, 0, 0, 0, 0, 0, 0, 0,  
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0, 0, 0,  

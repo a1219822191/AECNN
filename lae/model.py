@@ -19,7 +19,6 @@ class NET(nn.Module):
         self.linear1=nn.Linear(32,1)
         
         
-        #self.linear5=nn.Linear(100,64)
         self.conva=nn.Conv1d(1,3,20)
         
     def forward(self, atom_one_hot,atom_env,crystal_atom_idx):
@@ -30,9 +29,6 @@ class NET(nn.Module):
         atom=F.relu(atom)
         s1,s2,s3=atom.shape
         atom=(atom.view(-1,s1*s2*s3).view(s1,s2*s3))
-        #atom_one_hot=self.linear5(atom_one_hot)
-        
-
 
         total=torch.cat((atom,atom_env),1)
         m,n=total.shape
