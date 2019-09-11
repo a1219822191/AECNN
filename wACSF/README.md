@@ -20,5 +20,5 @@ __Rcut__ define the size of region to calculate ACSF
 __Nfearure__ define the number of symmetry function  
 __Lattice__ is the cell matrix shape (3,3)  
 __Position__ is the atomic position in cartesian coordinate shape (natoms,3), natoms is the number of atoms in cell, the unit of __Lattice__ and
-__Position__ is angstrom
+__Position__ is angstrom  
 __Acsf__ is the wacsf matrix shape (natoms, nfeature)  
