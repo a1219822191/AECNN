@@ -2,17 +2,13 @@
 import os
 import csv
 import re
-import json
 import functools
 import random
 import warnings
-import math
 from ase.io import read 
 import sys
 
 import torch
-import numpy as np
-from quippy import descriptors
 from torch.utils.data import Dataset, DataLoader
 from torch.utils.data.dataloader import default_collate
 from torch.utils.data.sampler import SubsetRandomSampler
@@ -21,7 +17,7 @@ from libwacsf.wacsf import WACSF
 def get_train_val_test_loader(dataset, collate_fn=default_collate,
                               batch_size=64, train_size=None,
                               val_size=1000, test_size=1000, return_test=False,
-                              num_workers=1, pin_memory=False):
+                              num_workers=5, pin_memory=False):
     """
     Utility function for dividing a dataset to train, val, test datasets.
 
@@ -116,11 +112,27 @@ def collate_pool(dataset_list):
 
 
 class CIFData(Dataset): 
-        # read file
+        '''
+        Read the path that stores the cif file and target properties
+        Encode structural and element information
+
+        xyzpath:
+            The path to the root directory of the dataset
+        radius: float
+            The atomic bonding environment within the truncation radius
+        struc_len:
+            Structure of the vector
+        random_seed: int
+            Random seed for shuffling the dataset
+        
+        Return:
+        atom_fea:torch.Tensor shape (n_i, one_hot)
+        struc:torch.LongTensor shape (n_i, M)
+        target: torch.Tensor shape (1, )
+        cif_id: str or int
+        '''
     def __init__ (self,root_dir,random_seed=123):
         self.root_dir = root_dir
-        struc =[]
-        bb = []
         assert os.path.exists(root_dir), 'root_dir does not exist!'
         id_prop_file = os.path.join(self.root_dir, 'id_prop.csv')
         assert os.path.exists(id_prop_file), 'id_prop.csv does not exist!'
@@ -150,10 +162,11 @@ class CIFData(Dataset):
             ele.append(crystal[i].specie.number)
         atom_fea = np.vstack([self.one_hot_element(ele[i])
                                 for i in range(len(crystal))])
-        
+       #------------------------------------------------------ 
         target = torch.FloatTensor([float(target)])
         struc = torch.Tensor(struc)
         atom_fea = torch.Tensor(atom_fea)
+
         return (atom_fea,struc) , target,cif_id
 
     def one_hot_element(self,ele):                                                                                                                               
@@ -182,4 +195,31 @@ class CIFData(Dataset):
         one_hot[ele]=1
 
         return one_hot
+
+class h5(Dataset):
+    def __init__ (self,root_dir,random_seed=123):
+        self.root_dir = root_dir
+        assert os.path.exists(root_dir), 'root_dir does not exist!'
+        id_prop_file = os.path.join(self.root_dir, 'id_prop.csv')
+        assert os.path.exists(id_prop_file), 'id_prop.csv does not exist'
+        with open(id_prop_file) as f:
+            reader = csv.reader(f)
+            self.id_prop_data = [row for row in reader]
+        random.seed(random_seed)
+        random.shuffle(self.id_prop_data)
+    def __len__(self):
+        return len(self.id_prop_data)
+    @functools.lru_cache(maxsize=None)
+    def __getitem__(self,idx):
+        cif_id, target = self.id_prop_data[idx]
+        fh5py=h5py.File(os.path.join(self.root_dir,cif_id+'.h5'),'r')
+        atom_fea =fh5py['atom_fea'][:] 
+        struc =fh5py['struc'][:]
+        target =fh5py['target'][:]
+        target = torch.FloatTensor([float(target)])
+        struc = torch.Tensor(struc)
+        atom_fea = torch.Tensor(atom_fea)
+        return (atom_fea,struc) , target,cif_id 
+
+
     
