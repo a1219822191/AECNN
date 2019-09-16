@@ -5,7 +5,6 @@ import shutil
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-#import torch.nn.parallel
 import torch.backends.cudnn as cudnn
 import torch.optim as optim
 from torch.optim.lr_scheduler import MultiStepLR 
@@ -27,7 +26,7 @@ parser.add_argument('--dataroot',metavar='OPTIONS', nargs='+',default=None,help=
 parser.add_argument('--disable-cuda', action='store_true',help='Disable CUDA')
 parser.add_argument('-j', '--workers', default=0, type=int, metavar='N',help='number of data loading workers (default: 0)')
 parser.add_argument('--epochs', default=2000, type=int, metavar='N',
-                    help='number of total epochs to run (default: 30)')
+                    help='number of total epochs to run (default: 1000)')
 parser.add_argument('--start-epoch', default=0, type=int, metavar='N',help='manual epoch number (useful on restarts)')
 parser.add_argument('-b', '--batch-size', default=256, type=int,metavar='N', help='mini-batch size (default: 256)')
 parser.add_argument('--lr', '--learning-rate', default=0.01, type=float,metavar='LR', help='initial learning rate (default: ''0.01)')
@@ -146,8 +145,7 @@ def train(train_loader, model, criterion, optimizer, epoch,normalizer,s):
                 [crys_idx.cuda() for crys_idx in input[2]])
         else:
             input_var=(Variable(input[0]),
-                    Variable(input[1]),
-                    input[3])
+                    Variable(input[1]))
         
         target_normed = normalizer.norm(target)
         if opt.cuda:
@@ -204,8 +202,7 @@ def validate(val_loader, model, criterion, normalizer,s,test=False):
                         [crys_idx.cuda() for crys_idx in input[2]])
         else:
             input_var=(Variable(input[0]),
-                    Variable(input[1]),
-                    input[3])
+                    Variable(input[1]))
         
         target_normed = normalizer.norm(target)
 
