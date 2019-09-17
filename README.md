@@ -8,7 +8,22 @@ This software package uses atomic environmental information to predict material 
 
 
 ## Usage
+### Step1 : Installing  libwacsf
+Entering Dir ${wACSF}, running command
+```bash
+python setup.py install
+```
+to install the package in your machine ,if you use system's python, you need root
 
-python main.py --dataroot=Your Dir contains structure files in xyz format
+###Step2 : Structure encoding,and generating training set file struc.h5 by script /tools/AECNN_data_deal.py
+python AECNN_data_deal.py --dataroot=Your Dir contains structure files in cif format
+You'll get a directory containing.h5 files,and Place the file containing the filename and target properties in this directory
 
+###Step3 :Training AECNN
+in Dir ${AECNN}
+```
+python main.py --xyzpath=./h5_data > log &
+```
 You can set the number of training, validation, and test data with labels `--train-size`, `--val-size`, and `--test-size`.
+example
+python main.py --train-size 6 --val-size 2 --test-size 2  --xyzpath=./h5_data
