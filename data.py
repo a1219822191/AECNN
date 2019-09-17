@@ -7,6 +7,8 @@ import random
 import warnings
 from ase.io import read 
 import sys
+import h5py
+import numpy as np
 
 import torch
 from torch.utils.data import Dataset, DataLoader
@@ -152,9 +154,13 @@ class CIFData(Dataset):
         fi=read(os.path.join(self.root_dir,cif_id+'.cif'))
         pos=fi.positions
         lat=fi.cell
+        species=fi.get_atomic_numbers()
+
          #---Code structure----------------------
         a = WACSF(rcut=6.0,nfeature= 33)
         struc =a.car2wacsf(lat,pos)
+        #wacsf = Wacsf(nf = 66, rcut = 6.0, lgrad = False)
+        #struc = wacsf.car2wacsf(lat, species, pos)
         #-------------------------------------------
         # Code element
         ele=[]
@@ -167,6 +173,12 @@ class CIFData(Dataset):
         struc = torch.Tensor(struc)
         atom_fea = torch.Tensor(atom_fea)
 
+        if not os.path.exits("./h5_data")
+            os.mkdir('h5_data')
+        f1 = h5py.File('./h5_data/'+cif_id+'.h5','w')
+        f1.create_dataset('atom_fea',data=atom_fea)
+        f1.create_dataset('struc',data=struc)
+        f1.close()
         return (atom_fea,struc) , target,cif_id
 
     def one_hot_element(self,ele):                                                                                                                               

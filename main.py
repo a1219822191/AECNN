@@ -18,6 +18,7 @@ from random import sample
 
 from data import CIFData
 from data import collate_pool, get_train_val_test_loader
+from data import h5
 from model import NET
 from torch.utils.data import DataLoader
 parser = argparse.ArgumentParser(description='AECNN')
@@ -30,7 +31,7 @@ parser.add_argument('--epochs', default=2000, type=int, metavar='N',
 parser.add_argument('--start-epoch', default=0, type=int, metavar='N',help='manual epoch number (useful on restarts)')
 parser.add_argument('-b', '--batch-size', default=256, type=int,metavar='N', help='mini-batch size (default: 256)')
 parser.add_argument('--lr', '--learning-rate', default=0.01, type=float,metavar='LR', help='initial learning rate (default: ''0.01)')
-parser.add_argument('--lr-milestones', default=[200], nargs='+', type=int,metavar='N', help='milestones for scheduler (default:'
+parser.add_argument('--lr-milestones', default=[100], nargs='+', type=int,metavar='N', help='milestones for scheduler (default:'
                     '[100])')
 parser.add_argument('--momentum', default=0.9, type=float, metavar='M',
                     help='momentum')
@@ -57,7 +58,8 @@ best_mae_error = 1e10
 def main():
     global opt, best_mae_error
 
-    dataset = CIFData(*opt.dataroot)
+    #dataset = CIFData(*opt.dataroot)
+    dataset = h5(*opt.dataroot) 
 
     collate_fn = collate_pool
     
