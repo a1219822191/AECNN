@@ -6,6 +6,25 @@ This software package uses atomic environmental information to predict material 
 1.Train a AECNN model with a customized dataset.
 2.Predict material properties of new crystals with a pre-trained AECNN model.
 
+## Table of Contents
+
+- [Prerequisties](#prerequistes)
+- [Usage](#usage)
+    -[Install libwacsf](#install-libwacsf)
+    -[Structure enconding and define a customized dataset]
+    -[Train a AECNN model]
+    -[Predict material properties with a pre-trained AECNN model]
+- [Authors]
+- [License]
+
+
+##  Prerequisites
+
+This package requires:
+- [PyTorch]
+- [ase]
+- [h5py]
+- [pymatgen]
 
 ## Usage
 ### Step1 : Installing  libwacsf
@@ -25,8 +44,6 @@ and Place the file containing the filename and target properties in this directo
 ### Step3 :Training AECNN
 in Dir ${AECNN}
 ```
-python main.py --xyzpath=./h5_data > log &
+python main.py --dataroot=./h5_data --train-size=80 --val-size=10 --test-size=10 > log &
 ```
 You can set the number of training, validation, and test data with labels `--train-size`, `--val-size`, and `--test-size`.
-example
-python main.py --train-size=80 --val-size=10 --test-size=10  --xyzpath=./h5_data
